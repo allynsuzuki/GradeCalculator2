@@ -38,9 +38,10 @@ function calculateCurrentGrade(){
         var allData = [homeworkWeight, quizzesWeight, testsWeight, midtermWeight, checkHomework, checkTests, checkMidterm,
             checkQuizzes, avgTests, avgQuizzes, avgMidterm, avgHomework];
 
-        printGrade(allData);
+         var currentGrade = printGrade(allData);
 
         document.getElementById("calculateGradeNeeded").disabled = false;
+        return currentGrade;
     }
 }
 
@@ -58,8 +59,12 @@ function printGrade(allData) {
     } else {
         var grade = (allData[11] * (allData[0] / 100)) + (allData[9] * (allData[1] / 100)) + (allData[8] *
             (allData[2] / 100)) + (allData[10] * (allData[3] / 100));
+        grade = Math.round(grade * 100) / 100;
+        console.log(grade);
         document.getElementById("currentGrade").innerHTML = "This is your current grade: " + grade;
+ return grade;
     }
+    return 0;
 }
 
 
@@ -106,7 +111,8 @@ function calculateGradeNeeded(){
     if(finalWeight=="" || gradeWanted=="" || finalWeight<0){
         document.getElementById("gradeNeeded").innerHTML= "Some of your inputs are invalid. Please check and resubmit."
     }else {
-        var gradeNeeded = (100 * gradeWanted - (100 - finalWeight) * grade) / finalWeight;
+        var gradeNeeded = (100 * gradeWanted - (100 - finalWeight) * calculateCurrentGrade()) / finalWeight;
+        gradeNeeded = Math.round(gradeNeeded * 100) / 100;
         document.getElementById("gradeNeeded").innerHTML = "This is what you need to score on your final: " + gradeNeeded;
 
     }
